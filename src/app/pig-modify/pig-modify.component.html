@@ -1,0 +1,59 @@
+<div style="margin: 20px;">
+    <h2> Pig Report #{{pig.data.itemNumber}} </h2>
+
+    <table id="infoTable" class="table table-bordered table-striped" style="width: 50vw">
+        <thead>
+            <tr>
+                <th style="width: 40%"> Information </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span style="font-weight: bold;"> Reporter </span></td>
+                <td> {{ pig.data.reporterName }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Phone number </span></td>
+                <td> {{ pig.data.reporterPhone }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Pig breed </span></td>
+                <td> {{ pig.data.pigBreed }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> PID </span></td>
+                <td> {{ pig.data.pigID }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Location </span></td>
+                <td> {{ pig.data.reporterLocation }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Longitude </span></td>
+                <td> {{ pig.data.reporterLong }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Latitude </span></td>
+                <td> {{ pig.data.reporterLat }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Notes </span></td>
+                <td> {{ pig.data.reporterNotes }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Time & Date </span></td>
+                <td> {{ pig.data.reporterDate | date: 'yyyy-MM-d (h:mma)' }} </td>
+            </tr>
+            <tr>
+                <td><span style="font-weight: bold;"> Status </span></td>
+                <span *ngIf="pig.data.pigStatus == 'Ready for pickup'; then ready else done"></span>
+                <ng-template #ready> <td> Ready for pickup <button class="btn btn-success" (click)="clickRetrieved()"> Retrieve </button></td> </ng-template>
+                <ng-template #done> <td> Retrieved <button class="btn btn-danger" (click)="clickUndo()"> Undo </button></td> </ng-template>
+            </tr>
+        </tbody>
+    </table><br><br>
+
+    <button class="btn btn-dark" (click)="goHome()">Back</button>
+</div>
+

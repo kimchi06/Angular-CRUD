@@ -1,0 +1,120 @@
+<form 
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(form.value)"
+    #addPigForm="ngForm"
+    style="width: 50%; margin: 20px"
+>
+    <h1>Create Pig Report</h1>
+        <!-- Reporter name -->
+        <div>
+            <label>Your name *</label>
+            <input name="reporterName" type="text" placeholder="Your name" formControlName="reporterName" class="form-control"
+            [class.is-invalid]="form.get('reporterName')?.invalid && form.get('reporterName')?.dirty">
+            <div class="invalid-feedback">This field is required.</div>
+        </div><br>
+
+        <!-- Reporter phone number -->
+        <div>
+            <label>Phone number *</label>
+            <input name="reporterPhone" type="number" placeholder="Phone number" formControlName="reporterPhone" class="form-control"
+            [class.is-invalid]="form.get('reporterPhone')?.invalid && form.get('reporterPhone')?.dirty">
+            <div class="invalid-feedback">Enter a valid number.</div>
+        </div><br>
+
+        <!-- Pig breed -->
+        <div>
+            <label>Pig breed *</label>
+            <select name="pigBreed" formControlName="pigBreed" class="form-select">
+                <option value="unknown">Unknown</option>
+                <option value="potbellied">Pot-bellied</option>
+                <option value="duroc">Duroc</option>
+                <option value="hampshire">Hampshire</option>
+                <option value="meishan">Meishan</option>
+                <option value="middlewhite">Middle white</option>
+            </select>
+        </div><br>
+
+        <!-- Pig ID -->
+        <div>
+            <label>Pig ID *</label>
+            <input name="pigID" type="number" placeholder="Pig ID (PID)" formControlName="pigID" class="form-control"
+            [class.is-invalid]="form.get('pigID')?.invalid && form.get('pigID')?.dirty">
+            <div class="invalid-feedback">Enter a valid number.</div>
+        </div><br>
+
+        <!-- Location select -->
+        <div>
+            <label>Location (NOTE: Deselect form to activate submit button)*</label>
+            <select class="form-select" name="newLoc" formControlName="newLoc">
+                <option value="new">New location</option>
+                <option *ngFor="let location of uniqueList" [value]="location.reporterLocation">
+                    {{ location.reporterLocation }}
+                </option>
+            </select>
+        </div><br>
+
+        <!-- Reported location -->
+        <div>
+            <span *ngIf="form.get('newLoc').value == 'new'; then addNew else autofill"></span>
+            <!-- Add editable form if new selected -->
+            <ng-template #addNew>
+                <label>Add new location *</label>
+                <input name="reporterLocation" type="text" placeholder="Location" formControlName="reporterLocation" class="form-control"
+                [class.is-invalid]="form.get('reporterLocation')?.invalid && form.get('reporterLocation')?.dirty">
+                <div class="invalid-feedback">This field is required.</div><br>
+
+                <!-- Longitude -->
+                <div>
+                    <label>Longitude *</label>
+                    <input name="reporterLong" type="number" placeholder="Longitude" formControlName="reporterLong" class="form-control" 
+                    [class.is-invalid]="form.get('reporterLong')?.invalid && form.get('reporterLong')?.dirty">
+                    <div class="invalid-feedback">Enter a valid longitude (-180.00, 180.00).</div>
+                </div><br>
+
+                <!-- Latitude -->
+                <div>
+                    <label>Latitude *</label>
+                    <input name="reporterLat" type="number" placeholder="Latitude" formControlName="reporterLat" class="form-control"
+                    [class.is-invalid]="form.get('reporterLat')?.invalid && form.get('reporterLat')?.dirty">
+                    <div class="invalid-feedback">Enter a valid longitude (-85.00, 85.00).</div>
+                </div><br>
+            </ng-template>
+
+            <!-- Autofill if not new -->
+            <ng-template #autofill>
+                <!-- Autofill location name -->
+                <label>{{ form.get('newLoc').value }}</label>
+                <input name="reporterLocation" type="text" [value]="form.get('newLoc').value" [placeholder]="form.get('newLoc').value" 
+                formControlName="reporterLocation" class="form-control" readonly><br>
+
+                <!-- Autofill long -->
+                <div>
+                    <label>Longitude for {{ form.get('newLoc').value }}</label>
+                    <input name="reporterLong" type="number" [placeholder]="findLong(form.get('newLoc').value)" [value]="findLong(form.get('newLoc').value)" 
+                    formControlName="reporterLong"class="form-control" readonly>
+                </div><br>
+
+                <!-- Autofill lat -->
+                <div>
+                    <label>Latitude for {{ form.get('newLoc').value }}</label>
+                    <input name="reporterLat" type="number" [placeholder]="findLat(form.get('newLoc').value)" [value]="findLat(form.get('newLoc').value)" 
+                    formControlName="reporterLat" class="form-control" readonly>
+                </div><br>
+                <p>Note to TA's: This autofill feature is broken. Even though the forms properly display information when selecting a known location, the input values can't be read properly. The location name, longitude, and latitude are submitted as "", and I wasn't able to solve this issue.
+                    I was still able to reject known longitudes and latitudes when creating a new location though.
+                </p>
+            </ng-template>        
+        </div>
+
+        <!-- Extra notes -->
+        <div>
+            <label>Additional notes</label>
+            <input name="reporterNotes" type="text" placeholder="Additional notes" formControlName="reporterNotes" class="form-control">
+        </div><br>
+
+        <!-- Submit button -->
+        <button class="btn btn-dark" [disabled]="!form.valid" style="width: 15vw"> Submit </button><br><br>
+
+        <button class="btn btn-dark" (click)="goHome()">Back</button>
+
+</form>

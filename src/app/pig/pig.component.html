@@ -1,0 +1,82 @@
+<div style="margin: 20px">
+    <!-- List of Pig Reports -->
+    <h2> Pig Reports </h2>
+    <p>NOTE: Reload page to see updates</p>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="reporterLocation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort">
+                    Location
+                </th>
+                <td mat-cell *matCellDef="let apig"> {{ apig.reporterLocation }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reporterName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort">
+                  Name
+                </th>
+                <td mat-cell *matCellDef="let apig"> {{ apig.reporterName }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reporterDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort">
+                  Time
+                </th>
+                <td mat-cell *matCellDef="let apig"> {{ apig.reporterDate | date: 'yyyy-MM-d (h:mma)' }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pigStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort">
+                  Status
+                </th>
+                <td mat-cell *matCellDef="let apig"> {{ apig.pigStatus }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="modify">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let apig">
+                  <button class="btn btn-outline-warning" (click)="onModify(apig.itemNumber)"> Modify </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let apig">
+                  <button class="btn btn-danger" (click)="onDelete(apig.itemNumber)"> Delete </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- <table id="listTable" class="table table-bordered table-striped" style="width: 70vw">
+            <thead>
+                <tr>
+                    <th style="width: 22%"><span style="font-weight: bold"> Location </span></th>
+                    <th style="width: 22%"><span style="font-weight: bold"> Reported by </span></th>
+                    <th style="width: 22%"><span style="font-weight: bold"> Reported at </span></th>
+                    <th style="width: 16%"> Status </th>
+                    <th style="width: 9%;"></th>
+                    <th style="width: 9%;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let apig of pigs">
+                    <td> {{ apig.data.reporterLocation }} </td>
+                    <td> {{ apig.data.reporterName }} </td>
+                    <td> {{ apig.data.reporterDate | date: 'yyyy-MM-d (h:mma)' }} </td>
+                    <td> {{ apig.data.pigStatus }} </td>
+                    <td> <button class="btn btn-outline-warning" (click)="onModify($event, apig.key)"> Modify </button></td>
+                    <td> <button class="btn btn-danger"> Delete </button></td>
+                </tr>
+            </tbody>
+        </table> -->
+    </div><br><br>
+
+    <!-- Go to pig add form -->
+    <h2> Report a Missing Pig </h2>
+    <button id="addPigButton" class="btn btn-primary" (click)="addButton()" style="width: 15vw">Create a report</button>
+
+</div>
